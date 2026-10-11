@@ -91,30 +91,30 @@ function EditPlace() {
 
   async function upload(file: File) {
     if (!user) return;
-    if (file.size > 5 * 1024 * 1024) return toast.error("Image must be under 5MB");
+    if (file.size > 5 * 1024 * 1024) { toast.error("Image must be under 5MB"); return; }
     const path = `${user.id}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.]/g, "_")}`;
     const { error } = await supabase.storage.from("restaurant-images").upload(path, file);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     const { data: s } = await supabase.storage.from("restaurant-images").createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
     if (s) set("image_url", s.signedUrl);
   }
 
   async function save() {
     const p = schema.safeParse(f);
-    if (!p.success) return toast.error(p.error.issues[0]?.path.join(".") + ": " + p.error.issues[0]?.message);
+    if (!p.success) { toast.error(p.error.issues[0]?.path.join(".") + ": " + p.error.issues[0]?.message); return; }
     setSaving(true);
     const row = { ...p.data, name_bn: p.data.name_bn || null, phone: p.data.phone || null, updated_at: new Date().toISOString() };
     if (isNew) {
       const { data: ins, error } = await supabase.from("restaurants").insert({ ...row, owner_id: user!.id }).select("id").single();
       setSaving(false);
-      if (error) return toast.error(error.message);
+      if (error) { toast.error(error.message); return; }
       toast.success("Your place is live!");
       qc.invalidateQueries({ queryKey: ["restaurants"] });
       nav({ to: "/dashboard/$id", params: { id: ins.id } });
     } else {
       const { error } = await supabase.from("restaurants").update(row).eq("id", id);
       setSaving(false);
-      if (error) return toast.error(error.message);
+      if (error) { toast.error(error.message); return; }
       toast.success("Saved");
       qc.invalidateQueries();
     }
@@ -218,9 +218,9 @@ function MenuEditor({ restaurantId, items }: { restaurantId: string; items: Menu
   const refresh = () => qc.invalidateQueries();
   async function add() {
     const p = z.object({ name: z.string().trim().min(1).max(80), price: z.number().int().min(0).max(100000) }).safeParse({ name, price: Number(price) });
-    if (!p.success) return toast.error("Enter item name and price");
+    if (!p.success) { toast.error("Enter item name and price"); return; }
     const { error } = await supabase.from("menu_items").insert({ restaurant_id: restaurantId, ...p.data });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setName(""); setPrice(""); refresh();
   }
   return (
@@ -256,10 +256,10 @@ function DealsEditor({ restaurantId, deals }: { restaurantId: string; deals: Dea
   const [days, setDays] = useState("1");
   async function add() {
     const t = title.trim();
-    if (!t || t.length > 120) return toast.error("Write a short deal (max 120 characters)");
+    if (!t || t.length > 120) { toast.error("Write a short deal (max 120 characters)"); return; }
     const ends = new Date(Date.now() + Math.max(1, Math.min(60, Number(days) || 1)) * 86400000).toISOString();
     const { error } = await supabase.from("deals").insert({ restaurant_id: restaurantId, title: t, ends_at: ends });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setTitle(""); qc.invalidateQueries();
   }
   return (
