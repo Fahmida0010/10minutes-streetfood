@@ -37,7 +37,7 @@ export function formatDistance(m: number): string {
 }
 
 function toMinutes(t: string): number {
-  const [h, m] = t.split(":").map(Number);
+  const [h = 0, m = 0] = t.split(":").map(Number);
   return h * 60 + (m || 0);
 }
 
@@ -64,7 +64,7 @@ export function isOpenAt(open: string, close: string, nowMinutes: number): boole
 }
 
 export function formatTime(t: string): string {
-  const [h, m] = t.split(":").map(Number);
+  const [h = 0, m = 0] = t.split(":").map(Number);
   const suffix = h >= 12 ? "PM" : "AM";
   const hh = h % 12 === 0 ? 12 : h % 12;
   return `${hh}:${String(m).padStart(2, "0")} ${suffix}`;

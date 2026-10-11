@@ -9,8 +9,8 @@ type Props = {
   meters: number;
   minutes: number;
   open: boolean;
-  rating?: { sum: number; n: number };
-  deal?: string;
+  rating?: { sum: number; n: number } | undefined;
+  deal?: string | undefined;
   active?: boolean;
   onHover?: () => void;
 };

@@ -10,7 +10,7 @@ type Props = {
   user?: LatLng;
   pins: Pin[];
   activeId?: string | null;
-  route?: LatLng[];
+  route?: LatLng[] | undefined;
   radiusM?: number;
   zoom?: number;
   onPinClick?: (id: string) => void;
@@ -40,7 +40,7 @@ export function FoodMap(props: Props) {
         maxZoom: 19,
         attribution: "© OpenStreetMap",
       }).addTo(map);
-      map.on("click", (e) => propsRef.current.onMapClick?.(e.latlng.lat, e.latlng.lng));
+      map.on("click", (e: import("leaflet").LeafletMouseEvent) => propsRef.current.onMapClick?.(e.latlng.lat, e.latlng.lng));
       layerRef.current = L.layerGroup().addTo(map);
       mapRef.current = map;
       draw();

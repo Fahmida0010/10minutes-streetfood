@@ -81,17 +81,17 @@ function PlacePage() {
   async function postReview() {
     if (!user) return;
     const parsed = reviewSchema.safeParse({ rating, comment });
-    if (!parsed.success) return toast.error("Review is too long");
+    if (!parsed.success) { toast.error("Review is too long"); return; }
     setPosting(true);
     const { error } = await supabase.from("reviews").insert({
       restaurant_id: id,
       user_id: user.id,
-      user_name: (user.user_metadata?.full_name as string) || user.email?.split("@")[0] || "Guest",
+      user_name: (user.user_metadata?.["full_name"] as string) || user.email?.split("@")[0] || "Guest",
       rating: parsed.data.rating,
       comment: parsed.data.comment || null,
     });
     setPosting(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setComment("");
     qc.invalidateQueries({ queryKey: ["restaurant", id] });
     qc.invalidateQueries({ queryKey: ["restaurants"] });
