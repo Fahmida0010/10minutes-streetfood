@@ -18,9 +18,9 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/_authenticated/dashboard/$id")({
   head: () => ({
     meta: [
-      { title: "Edit place — 10 Minute Sylhet" },
+      { title: "Edit place — 10MinitesStreetfood" },
       { name: "description", content: "Update your place details, menu prices and deals." },
-      { property: "og:title", content: "Edit place — 10 Minute Sylhet" },
+      { property: "og:title", content: "Edit place — 10MinitesStreetfood" },
       { property: "og:description", content: "Update your place details, menu prices and deals." },
     ],
   }),

@@ -25,9 +25,9 @@ import { Textarea } from "@/components/ui/textarea";
 export const Route = createFileRoute("/place/$id")({
   head: () => ({
     meta: [
-      { title: "Place details — 10 Minute Sylhet" },
+      { title: "Place details — 10MinitesStreetfood" },
       { name: "description", content: "Menu with prices, opening hours, walking route and reviews." },
-      { property: "og:title", content: "Place details — 10 Minute Sylhet" },
+      { property: "og:title", content: "Place details — 10MinitesStreetfood" },
       { property: "og:description", content: "Menu with prices, opening hours, walking route and reviews." },
     ],
   }),

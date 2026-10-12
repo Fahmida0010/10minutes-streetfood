@@ -13,10 +13,10 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "10 Minute Sylhet — Eat within a 10 minute walk" },
-      { name: "description", content: "Map of Sylhet restaurants, hotels and street food with prices, opening hours and walking time." },
-      { property: "og:title", content: "10 Minute Sylhet — Eat within a 10 minute walk" },
-      { property: "og:description", content: "Find food near you in Sylhet with walking routes, prices and deals." },
+      { title: "10MinitesStreetfood — Street food within a 10 minute walk" },
+      { name: "description", content: "Map of street food, hotels and restaurants across Bangladesh — starting with Sylhet — with prices, opening hours and walking time." },
+      { property: "og:title", content: "10MinitesStreetfood — Street food within a 10 minute walk" },
+      { property: "og:description", content: "Find street food near you in Bangladesh with walking routes, prices and deals." },
     ],
   }),
   component: Home,
