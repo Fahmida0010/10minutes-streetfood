@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Store } from "lucide-react";
+import { MapPinPlus, Store } from "lucide-react";
 import { useApp } from "@/lib/app-context";
 import { useAuth } from "@/lib/use-auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -29,6 +29,11 @@ export function SiteHeader() {
               </button>
             ))}
           </div>
+          <Button asChild variant="accent" size="sm" className="rounded-full">
+            <Link to="/suggest">
+              <MapPinPlus /> <span className="hidden sm:inline">{t("addPlace")}</span>
+            </Link>
+          </Button>
           <Button asChild variant="outline" size="sm" className="rounded-full">
             <Link to="/dashboard">
               <Store /> <span className="hidden sm:inline">{user ? t("myPlaces") : t("forOwners")}</span>

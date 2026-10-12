@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/_authenticated/dashboard/")({
   head: () => ({
     meta: [
-      { title: "My places — 10 Minute Sylhet" },
+      { title: "My places — 10MinitesStreetfood" },
       { name: "description", content: "Manage your restaurant listing, menu, prices and deals." },
-      { property: "og:title", content: "My places — 10 Minute Sylhet" },
+      { property: "og:title", content: "My places — 10MinitesStreetfood" },
       { property: "og:description", content: "Manage your restaurant listing, menu, prices and deals." },
     ],
   }),

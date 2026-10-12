@@ -10,10 +10,10 @@ import { Input } from "@/components/ui/input";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — 10 Minute Sylhet" },
-      { name: "description", content: "Sign in to add your restaurant or write reviews." },
-      { property: "og:title", content: "Sign in — 10 Minute Sylhet" },
-      { property: "og:description", content: "Sign in to add your restaurant or write reviews." },
+      { title: "Sign in — 10MinitesStreetfood" },
+      { name: "description", content: "Sign in to add a street food place or write reviews." },
+      { property: "og:title", content: "Sign in — 10MinitesStreetfood" },
+      { property: "og:description", content: "Sign in to add a street food place or write reviews." },
     ],
   }),
   component: AuthPage,
