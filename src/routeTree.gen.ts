@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as SuggestRouteImport } from './routes/suggest'
 import { Route as PlaceIdRouteImport } from './routes/place.$id'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
 import { Route as AuthenticatedDashboardIdRouteImport } from './routes/_authenticated/dashboard.$id'
@@ -28,6 +29,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuggestRoute = SuggestRouteImport.update({
+  id: '/suggest',
+  path: '/suggest',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlaceIdRoute = PlaceIdRouteImport.update({
@@ -51,6 +57,7 @@ const AuthenticatedDashboardIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/suggest': typeof SuggestRoute
   '/place/$id': typeof PlaceIdRoute
   '/dashboard/$id': typeof AuthenticatedDashboardIdRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/suggest': typeof SuggestRoute
   '/place/$id': typeof PlaceIdRoute
   '/dashboard/$id': typeof AuthenticatedDashboardIdRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
@@ -67,20 +75,24 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/suggest': typeof SuggestRoute
   '/place/$id': typeof PlaceIdRoute
   '/_authenticated/dashboard/$id': typeof AuthenticatedDashboardIdRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/place/$id' | '/dashboard/$id' | '/dashboard/'
+  fullPaths:
+    '/' | '/auth' | '/suggest' | '/place/$id' | '/dashboard/$id' | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/place/$id' | '/dashboard/$id' | '/dashboard'
+  to:
+    '/' | '/auth' | '/suggest' | '/place/$id' | '/dashboard/$id' | '/dashboard'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/suggest'
     | '/place/$id'
     | '/_authenticated/dashboard/$id'
     | '/_authenticated/dashboard/'
@@ -90,6 +102,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  SuggestRoute: typeof SuggestRoute
   PlaceIdRoute: typeof PlaceIdRoute
 }
 
@@ -114,6 +127,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/suggest': {
+      id: '/suggest'
+      path: '/suggest'
+      fullPath: '/suggest'
+      preLoaderRoute: typeof SuggestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/place/$id': {
@@ -157,6 +177,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  SuggestRoute: SuggestRoute,
   PlaceIdRoute: PlaceIdRoute,
 }
 export const routeTree = rootRouteImport
