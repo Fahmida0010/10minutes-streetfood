@@ -16,9 +16,9 @@ export function SiteHeader() {
           <img
             src={logoFoodCart}
             alt="10MinitesStreetfood"
-            className="h-9 w-9 shrink-0 drop-shadow-sm"
-            width={36}
-            height={36}
+            className="h-12 w-12 shrink-0 drop-shadow-sm"
+            width={48}
+            height={48}
           />
           <span className="font-display text-lg font-bold">{t("brand")}</span>
         </Link>
