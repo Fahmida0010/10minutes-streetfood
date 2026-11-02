@@ -14,7 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppProvider } from "@/lib/app-context";
 import { SiteHeader } from "@/components/SiteHeader";
-import { Toaster } from "@/components/ui/sonner";
+import { SiteFooter } from "@/components/SiteFooter";
 
 function NotFoundComponent() {
   return (
@@ -112,6 +112,7 @@ function RootComponent() {
       <AppProvider>
         <SiteHeader />
         <Outlet />
+        <SiteFooter />
         <Toaster />
       </AppProvider>
     </QueryClientProvider>
