@@ -2,6 +2,7 @@ export type Lang = "en" | "bn";
 
 const en = {
   brand: "10MinitesStreetfood",
+  visitors: "visitors so far",
   heroTitle: "Hungry? Street food within a 10 minute walk.",
   heroSub: "Every street stall, hotel kitchen and restaurant in Bangladesh — starting with Sylhet — with real prices, opening hours and a walking route.",
   useLocation: "Use my location",
@@ -73,6 +74,7 @@ export type DictKey = keyof typeof en;
 
 const bn: Record<DictKey, string> = {
   brand: "১০মিনিটসস্ট্রিটফুড",
+  visitors: "জন ভিজিটর এসেছে",
   heroTitle: "ক্ষুধা লেগেছে? ১০ মিনিট হাঁটলেই স্ট্রিট ফুড।",
   heroSub: "সারা বাংলাদেশের — বিশেষ করে সিলেটের — সব স্ট্রিট ফুড, হোটেল আর রেস্টুরেন্ট: আসল দাম, খোলার সময় আর হাঁটার রাস্তাসহ।",
   useLocation: "আমার লোকেশন",
