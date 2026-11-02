@@ -12,9 +12,13 @@ export function SiteHeader() {
     <header className="sticky top-0 z-[1000] border-b bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4">
         <Link to="/" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary font-display text-lg font-bold text-primary-foreground">
-            10
-          </span>
+          <img
+            src={logoFoodCart}
+            alt="10MinitesStreetfood"
+            className="h-9 w-9 shrink-0 drop-shadow-sm"
+            width={36}
+            height={36}
+          />
           <span className="font-display text-lg font-bold">{t("brand")}</span>
         </Link>
         <div className="flex items-center gap-2">
