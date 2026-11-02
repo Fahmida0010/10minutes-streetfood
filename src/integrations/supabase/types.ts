@@ -188,12 +188,27 @@ export type Database = {
           },
         ]
       }
+      visitors: {
+        Row: {
+          first_seen: string
+          id: string
+        }
+        Insert: {
+          first_seen?: string
+          id: string
+        }
+        Update: {
+          first_seen?: string
+          id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      record_visit: { Args: { p_visitor_id: string }; Returns: number }
     }
     Enums: {
       [_ in never]: never
