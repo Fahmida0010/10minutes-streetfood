@@ -4,6 +4,7 @@ import { useApp } from "@/lib/app-context";
 import { useAuth } from "@/lib/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import logoFoodCart from "@/assets/logo-foodcart.png";
 
 export function SiteHeader() {
   const { lang, setLang, t } = useApp();
