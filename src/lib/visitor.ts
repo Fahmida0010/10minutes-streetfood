@@ -11,8 +11,8 @@ export async function recordVisit(): Promise<number | null> {
       localStorage.setItem(KEY, id);
     }
     const { data, error } = await supabase.rpc("record_visit", { p_visitor_id: id });
-    if (error || typeof data !== "number") return null;
-    return data;
+    if (error || data == null) return null;
+    return Number(data);
   } catch {
     return null;
   }
