@@ -19,5 +19,6 @@ export async function recordVisit(): Promise<number | null> {
 }
 
 export function bnDigits(n: number): string {
-  return String(n).replace(/\d/g, (d) => "০১২৩৪৫৬৭৮৯"[Number(d)]);
+  const digits = "০১২৩৪৫৬৭৮৯";
+  return String(n).replace(/\d/g, (digit) => digits[Number(digit)] ?? digit);
 }
