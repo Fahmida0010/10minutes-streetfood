@@ -70,6 +70,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "google-site-verification", content: "hgITuMdHBY9JEipEnkRpR8cH6oBaylOlOgMSNT9RgFI" },
       { title: "10MinitesStreetfood — Food within walking distance" },
       { name: "description", content: "Find street food, restaurants and hotels across Bangladesh within a 10 minute walk." },
       { property: "og:type", content: "website" },
