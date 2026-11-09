@@ -68,6 +68,7 @@ const en = {
   signInToAdd: "Sign in to add a place",
   category: "Category",
   footerNote: "Street food, hotels and restaurants across Bangladesh — starting with Sylhet — with real prices, hours and walking routes.",
+  developerCredit: "Developed by Fahmida Akter Tanjina",
 } as const;
 
 export type DictKey = keyof typeof en;
@@ -140,6 +141,7 @@ const bn: Record<DictKey, string> = {
   signInToAdd: "জায়গা যোগ করতে সাইন ইন করুন",
   category: "ধরন",
   footerNote: "সারা বাংলাদেশের — বিশেষ করে সিলেটের — স্ট্রিট ফুড, হোটেল আর রেস্টুরেন্ট: আসল দাম, খোলার সময় আর হাঁটার রাস্তাসহ।",
+  developerCredit: "Developed by Fahmida Akter Tanjina",
 };
 
 export const dict: Record<Lang, Record<DictKey, string>> = { en, bn };

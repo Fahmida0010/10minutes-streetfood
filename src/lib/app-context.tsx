@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useState, type Context, type ReactNode } from "react";
 import { SYLHET_CENTER, type LatLng } from "./geo";
 import { dict, type Lang, type DictKey } from "./i18n";
 
@@ -14,7 +14,9 @@ type Ctx = {
   toggleFav: (id: string) => void;
 };
 
-const AppCtx = createContext<Ctx | null>(null);
+const contextStore = globalThis as typeof globalThis & { __tenMinitesAppContext?: Context<Ctx | null> };
+const AppCtx = contextStore.__tenMinitesAppContext ?? createContext<Ctx | null>(null);
+contextStore.__tenMinitesAppContext = AppCtx;
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>("en");

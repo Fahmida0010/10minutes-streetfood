@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
-import { LocateFixed, Search, Shuffle } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { LocateFixed, Search, Shuffle, Users } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import { useApp } from "@/lib/app-context";
 import { restaurantsQuery, displayName } from "@/lib/data";
@@ -9,6 +9,7 @@ import { dhakaMinutesNow, distanceMeters, isOpenAt, walkMinutes, NEARBY_MINUTES,
 import { FoodMap } from "@/components/FoodMap";
 import { PlaceCard } from "@/components/PlaceCard";
 import { Button } from "@/components/ui/button";
+import { bnDigits, recordVisit } from "@/lib/visitor";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,6 +37,17 @@ function Home() {
   const [onlyFavs, setOnlyFavs] = useState(false);
   const [q, setQ] = useState("");
   const [active, setActive] = useState<string | null>(null);
+  const [visitorCount, setVisitorCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    void recordVisit().then((count) => {
+      if (mounted) setVisitorCount(count);
+    });
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const now = dhakaMinutesNow();
   const rows = useMemo(() => {
@@ -98,6 +110,12 @@ function Home() {
             </Button>
           </div>
           <p className="mt-3 text-sm opacity-80">{hasRealLocation ? t("usingReal") : t("usingDefault")}</p>
+          {visitorCount !== null && (
+            <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-ink-foreground/30 bg-ink/50 px-4 py-2 text-sm font-semibold">
+              <Users aria-hidden="true" className="h-4 w-4" />
+              <span>{lang === "bn" ? bnDigits(visitorCount) : visitorCount.toLocaleString()} {t("visitors")}</span>
+            </p>
+          )}
         </div>
       </section>
 
