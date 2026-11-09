@@ -18,6 +18,7 @@ export function SiteFooter() {
           <span className="font-display text-xl font-bold">{t("brand")}</span>
         </Link>
         <p className="max-w-md text-sm opacity-80">{t("footerNote")}</p>
+        <p className="text-sm font-medium">{t("developerCredit")}</p>
         <p className="text-xs opacity-60">© {new Date().getFullYear()} 10MinitesStreetfood</p>
       </div>
     </footer>
