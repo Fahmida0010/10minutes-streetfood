@@ -98,9 +98,9 @@ function Home() {
       <section className="relative overflow-hidden">
         <img src={hero} alt="Street food stall in Sylhet at night" width={1600} height={912} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-hero-fade" />
-        <div className="relative mx-auto max-w-7xl px-4 pb-10 pt-24 text-ink-foreground md:pt-36">
-          <h1 className="max-w-2xl text-4xl font-extrabold leading-[1.05] md:text-6xl">{t("heroTitle")}</h1>
-          <p className="mt-4 max-w-xl text-lg opacity-90">{t("heroSub")}</p>
+        <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-16 text-ink-foreground sm:pb-10 sm:pt-24 md:pt-36">
+          <h1 className="max-w-2xl text-3xl font-extrabold leading-[1.05] sm:text-4xl md:text-6xl">{t("heroTitle")}</h1>
+          <p className="mt-4 max-w-xl text-base opacity-90 sm:text-lg">{t("heroSub")}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button size="lg" variant="accent" onClick={locate} disabled={locating}>
               <LocateFixed /> {locating ? t("locating") : t("useLocation")}
@@ -141,7 +141,7 @@ function Home() {
         </section>
       )}
 
-      <section className="sticky top-16 z-[900] mt-6 border-y bg-background/95 backdrop-blur">
+      <section className="sticky top-16 z-[900] mt-4 border-y bg-background/95 backdrop-blur sm:mt-6">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3">
           <div className="flex gap-2 overflow-x-auto">
             <div className="relative min-w-56 flex-1">
@@ -173,10 +173,10 @@ function Home() {
         </div>
       </section>
 
-      <section className="mx-auto grid max-w-7xl gap-6 px-4 py-6 lg:grid-cols-[1fr_1.1fr]">
+      <section className="mx-auto grid max-w-7xl gap-4 px-3 py-4 sm:gap-6 sm:px-4 sm:py-6 lg:grid-cols-[1fr_1.1fr]">
         <div className="lg:sticky lg:top-44 lg:h-[calc(100vh-12rem)]">
           <FoodMap
-            className="h-80 w-full overflow-hidden rounded-3xl border shadow-card lg:h-full"
+            className="h-72 w-full overflow-hidden rounded-2xl border shadow-card sm:h-80 sm:rounded-3xl lg:h-full"
             center={location}
             user={location}
             radiusM={(NEARBY_MINUTES * WALK_M_PER_MIN) / STREET_FACTOR}

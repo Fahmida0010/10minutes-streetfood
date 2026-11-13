@@ -27,10 +27,10 @@ function Dashboard() {
       (await supabase.from("restaurants").select("*").eq("owner_id", user!.id).order("created_at")).data ?? [],
   });
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-extrabold">My places</h1>
+    <main className="mx-auto max-w-4xl px-3 py-6 sm:px-4 sm:py-10">
+      <div className="grid min-w-0 grid-cols-1 items-start gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+        <div className="min-w-0">
+          <h1 className="text-2xl font-extrabold sm:text-3xl">My places</h1>
           <p className="text-muted-foreground">Keep your menu, prices and hours fresh so visitors pick you.</p>
         </div>
         <Button asChild className="rounded-full">
@@ -49,7 +49,7 @@ function Dashboard() {
           >
             <img src={r.image_url || categoryImage(r.category)} alt={r.name} loading="lazy" className="h-36 w-full object-cover" />
             <div className="p-4">
-              <h3 className="text-lg font-bold">{r.name}</h3>
+              <h3 className="break-words text-lg font-bold">{r.name}</h3>
               <p className="text-sm text-muted-foreground">
                 {r.area} · {r.available ? "Open today" : "Closed today"}
               </p>

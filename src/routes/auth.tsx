@@ -57,8 +57,8 @@ function AuthPage() {
   }
 
   return (
-    <main className="mx-auto max-w-md px-4 py-16">
-      <h1 className="text-3xl font-extrabold">{mode === "in" ? "Welcome back" : "Create your account"}</h1>
+    <main className="mx-auto max-w-md px-4 py-10 sm:py-16">
+      <h1 className="text-2xl font-extrabold sm:text-3xl">{mode === "in" ? "Welcome back" : "Create your account"}</h1>
       <p className="mt-2 text-muted-foreground">Owners can add and update their place. Visitors can write reviews.</p>
       <Button variant="outline" size="lg" className="mt-6 w-full rounded-full" onClick={google}>
         Continue with Google

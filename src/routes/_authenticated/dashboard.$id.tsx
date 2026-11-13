@@ -128,14 +128,14 @@ function EditPlace() {
   }
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-8">
+    <main className="mx-auto max-w-5xl px-3 py-5 sm:px-4 sm:py-8">
       <Link to="/dashboard" className="inline-flex items-center gap-1 text-sm text-muted-foreground">
         <ArrowLeft className="h-4 w-4" /> My places
       </Link>
-      <h1 className="mt-3 text-3xl font-extrabold">{isNew ? "Add your place" : f.name || "Edit place"}</h1>
+      <h1 className="mt-3 break-words text-2xl font-extrabold sm:text-3xl">{isNew ? "Add your place" : f.name || "Edit place"}</h1>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <section className="space-y-4 rounded-3xl border bg-card p-5">
+        <section className="min-w-0 space-y-4 rounded-2xl border bg-card p-4 sm:rounded-3xl sm:p-5">
           <Field label="Name (English)"><Input value={f.name} onChange={(e) => set("name", e.target.value)} /></Field>
           <Field label="নাম (বাংলা)"><Input value={f.name_bn} onChange={(e) => set("name_bn", e.target.value)} /></Field>
           <Field label="Type">
@@ -147,7 +147,7 @@ function EditPlace() {
             </select>
           </Field>
           <Field label="Short description"><Textarea maxLength={500} value={f.description} onChange={(e) => set("description", e.target.value)} /></Field>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Field label="Address"><Input value={f.address} onChange={(e) => set("address", e.target.value)} /></Field>
             <Field label="Area (e.g. Zindabazar)"><Input value={f.area} onChange={(e) => set("area", e.target.value)} /></Field>
             <Field label="Phone"><Input value={f.phone} onChange={(e) => set("phone", e.target.value)} /></Field>
@@ -157,19 +157,19 @@ function EditPlace() {
             <Field label="Lowest price ৳"><Input type="number" value={f.price_min} onChange={(e) => set("price_min", Number(e.target.value))} /></Field>
             <Field label="Highest price ৳"><Input type="number" value={f.price_max} onChange={(e) => set("price_max", Number(e.target.value))} /></Field>
           </div>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap gap-x-6 gap-y-3">
             <label className="flex items-center gap-2 text-sm"><Switch checked={f.halal} onCheckedChange={(v) => set("halal", v)} /> Halal</label>
             <label className="flex items-center gap-2 text-sm"><Switch checked={f.available} onCheckedChange={(v) => set("available", v)} /> Open today</label>
           </div>
         </section>
 
         <section className="space-y-4">
-          <div className="rounded-3xl border bg-card p-5">
+          <div className="rounded-2xl border bg-card p-4 sm:rounded-3xl sm:p-5">
             <Label>Photo</Label>
             <img src={f.image_url || categoryImage(f.category)} alt="" className="mt-2 h-44 w-full rounded-2xl object-cover" />
             <Input type="file" accept="image/*" className="mt-2" onChange={(e) => e.target.files?.[0] && upload(e.target.files[0])} />
           </div>
-          <div className="rounded-3xl border bg-card p-5">
+          <div className="rounded-2xl border bg-card p-4 sm:rounded-3xl sm:p-5">
             <Label>Location — tap the map on your exact spot</Label>
             <FoodMap
               className="mt-2 h-64 w-full overflow-hidden rounded-2xl"
@@ -228,10 +228,10 @@ function MenuEditor({ restaurantId, items }: { restaurantId: string; items: Menu
       <h2 className="text-xl font-bold">Menu & exact prices</h2>
       <ul className="mt-3 divide-y">
         {items.map((m) => (
-          <li key={m.id} className="flex items-center gap-3 py-2">
-            <span className="flex-1">{m.name}</span>
+          <li key={m.id} className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 py-2 sm:flex sm:gap-3">
+            <span className="min-w-0 break-words sm:flex-1">{m.name}</span>
             <span className="font-semibold">৳{m.price}</span>
-            <label className="flex items-center gap-1 text-xs">
+            <label className="flex items-center gap-1 text-xs sm:shrink-0">
               <Switch checked={m.available} onCheckedChange={async (v) => { await supabase.from("menu_items").update({ available: v }).eq("id", m.id); refresh(); }} />
               {m.available ? "Available" : "Sold out"}
             </label>
@@ -241,7 +241,7 @@ function MenuEditor({ restaurantId, items }: { restaurantId: string; items: Menu
           </li>
         ))}
       </ul>
-      <div className="mt-3 flex gap-2">
+      <div className="mt-3 grid grid-cols-[minmax(0,1fr)_4.5rem_auto] gap-2">
         <Input placeholder="Item (e.g. Beef Bhuna)" value={name} onChange={(e) => setName(e.target.value)} />
         <Input placeholder="৳" type="number" className="w-24" value={price} onChange={(e) => setPrice(e.target.value)} />
         <Button onClick={add}>Add</Button>
@@ -268,8 +268,8 @@ function DealsEditor({ restaurantId, deals }: { restaurantId: string; deals: Dea
       <p className="text-sm text-muted-foreground">Deals appear on the home page and attract nearby visitors.</p>
       <ul className="mt-3 divide-y">
         {deals.map((d) => (
-          <li key={d.id} className="flex items-center gap-3 py-2">
-            <span className="flex-1">🔥 {d.title}</span>
+          <li key={d.id} className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-x-3 gap-y-1 py-2 sm:flex sm:items-center sm:gap-3">
+            <span className="min-w-0 break-words sm:flex-1">🔥 {d.title}</span>
             <span className="text-xs text-muted-foreground">until {new Date(d.ends_at).toLocaleDateString()}</span>
             <button onClick={async () => { await supabase.from("deals").delete().eq("id", d.id); qc.invalidateQueries(); }} aria-label="Remove">
               <Trash2 className="h-4 w-4 text-muted-foreground" />
@@ -277,7 +277,7 @@ function DealsEditor({ restaurantId, deals }: { restaurantId: string; deals: Dea
           </li>
         ))}
       </ul>
-      <div className="mt-3 flex gap-2">
+      <div className="mt-3 grid grid-cols-[minmax(0,1fr)_4rem_auto] gap-2">
         <Input placeholder="e.g. 10% off after 9pm" value={title} onChange={(e) => setTitle(e.target.value)} />
         <Input type="number" className="w-20" value={days} onChange={(e) => setDays(e.target.value)} title="Days" />
         <Button onClick={add}>Add</Button>

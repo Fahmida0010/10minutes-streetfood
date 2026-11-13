@@ -60,7 +60,7 @@ function SuggestPage() {
 
   if (!user) {
     return (
-      <main className="mx-auto max-w-md px-4 py-20 text-center">
+      <main className="mx-auto max-w-md px-4 py-12 text-center sm:py-20">
         <h1 className="text-3xl font-extrabold">{t("addPlaceTitle")}</h1>
         <p className="mt-3 text-muted-foreground">{t("addPlaceSub")}</p>
         <Button asChild size="lg" className="mt-6 rounded-full">
@@ -108,15 +108,15 @@ function SuggestPage() {
   }
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-10">
-      <h1 className="text-3xl font-extrabold">{t("addPlaceTitle")}</h1>
+    <main className="mx-auto max-w-5xl px-3 py-6 sm:px-4 sm:py-10">
+      <h1 className="text-2xl font-extrabold sm:text-3xl">{t("addPlaceTitle")}</h1>
       <p className="mt-2 text-muted-foreground">{t("addPlaceSub")}</p>
 
       <form onSubmit={submit} className="mt-8 grid gap-6 lg:grid-cols-2">
         <div className="space-y-3">
           <Input placeholder={t("placeName")} value={name} maxLength={100} onChange={(e) => setName(e.target.value)} />
           <Input placeholder={t("placeNameBn")} value={nameBn} maxLength={100} onChange={(e) => setNameBn(e.target.value)} />
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <Input placeholder={t("area")} value={area} maxLength={100} onChange={(e) => setArea(e.target.value)} />
             <Input placeholder={t("phone")} value={phone} maxLength={20} onChange={(e) => setPhone(e.target.value)} />
           </div>
