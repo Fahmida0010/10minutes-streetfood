@@ -98,26 +98,26 @@ function PlacePage() {
   }
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-6">
+    <main className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-6">
       <Link to="/" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
         <ArrowLeft className="h-4 w-4" /> {t("back")}
       </Link>
 
-      <div className="mt-4 grid gap-6 lg:grid-cols-[1.2fr_1fr]">
+      <div className="mt-4 grid min-w-0 gap-5 sm:gap-6 lg:grid-cols-[1.2fr_1fr]">
         <div>
           <img
             src={r.image_url || categoryImage(r.category)}
             alt={r.name}
             width={944}
             height={704}
-            className="aspect-[16/10] w-full rounded-3xl object-cover shadow-card"
+            className="aspect-[16/10] w-full rounded-2xl object-cover shadow-card sm:rounded-3xl"
           />
-          <div className="mt-5 flex items-start justify-between gap-4">
-            <div>
-              <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+          <div className="mt-5 grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+            <div className="min-w-0">
+              <p className="break-words text-sm font-medium uppercase tracking-wide text-muted-foreground">
                 {t(r.category as "restaurant")} · {r.area} {r.halal && `· ${t("halal")}`}
               </p>
-              <h1 className="text-3xl font-extrabold md:text-4xl">{displayName(r, lang)}</h1>
+              <h1 className="break-words text-2xl font-extrabold leading-tight sm:text-3xl md:text-4xl">{displayName(r, lang)}</h1>
               {avg > 0 && (
                 <p className="mt-1 inline-flex items-center gap-1 text-sm">
                   <Star className="h-4 w-4 fill-accent text-accent" /> {avg.toFixed(1)} ({data.reviews.length})
@@ -152,9 +152,9 @@ function PlacePage() {
           )}
 
           <h2 className="mt-8 text-2xl font-bold">{t("menu")}</h2>
-          <ul className="mt-3 divide-y rounded-2xl border bg-card">
+          <ul className="mt-3 divide-y overflow-hidden rounded-2xl border bg-card">
             {data.menu.map((m) => (
-              <li key={m.id} className="flex items-center justify-between px-4 py-3">
+              <li key={m.id} className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-3 px-3 py-3 sm:px-4">
                 <span className={m.available ? "" : "text-muted-foreground line-through"}>{m.name}</span>
                 <span className="font-semibold">
                   {m.available ? `৳${m.price}` : <span className="text-sm text-destructive">{t("soldOut")}</span>}

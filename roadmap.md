@@ -1,0 +1,2 @@
+- [ ] Make all public and account pages usable on mobile, laptop, and desktop widths.
+- [ ] Check the key pages for horizontal overflow and record the responsive verification.

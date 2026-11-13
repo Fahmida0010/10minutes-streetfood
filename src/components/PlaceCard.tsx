@@ -22,7 +22,7 @@ export function PlaceCard({ r, meters, minutes, open, rating, deal, active, onHo
   return (
     <div
       onMouseEnter={onHover}
-      className={`group relative flex gap-4 rounded-2xl border bg-card p-3 shadow-card transition hover:-translate-y-0.5 hover:shadow-pop ${active ? "ring-2 ring-accent" : ""}`}
+      className={`group relative flex min-w-0 gap-3 rounded-2xl border bg-card p-2.5 shadow-card transition hover:-translate-y-0.5 hover:shadow-pop sm:gap-4 sm:p-3 ${active ? "ring-2 ring-accent" : ""}`}
     >
       <Link to="/place/$id" params={{ id: r.id }} className="absolute inset-0 z-0" aria-label={r.name} />
       <img
@@ -31,15 +31,15 @@ export function PlaceCard({ r, meters, minutes, open, rating, deal, active, onHo
         loading="lazy"
         width={112}
         height={112}
-        className="h-28 w-28 shrink-0 rounded-xl object-cover"
+        className="h-24 w-24 shrink-0 rounded-xl object-cover sm:h-28 sm:w-28"
       />
       <div className="min-w-0 flex-1">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <p className="break-words text-xs font-medium uppercase tracking-wide text-muted-foreground">
               {t(r.category as "restaurant")} · {r.area}
             </p>
-            <h3 className="truncate text-lg font-bold leading-tight">{displayName(r, lang)}</h3>
+            <h3 className="truncate text-base font-bold leading-tight sm:text-lg">{displayName(r, lang)}</h3>
           </div>
           <button
             onClick={() => toggleFav(r.id)}
