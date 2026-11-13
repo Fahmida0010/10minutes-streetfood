@@ -34,20 +34,21 @@ export function SiteHeader() {
               </button>
             ))}
           </div>
-          <Button asChild variant="accent" size="icon" className="sm:size-sm sm:rounded-full" aria-label={t("addPlace")} title={t("addPlace")}>
+          <Button asChild variant="accent" size="icon" className="sm:rounded-full lg:size-sm" aria-label={t("addPlace")} title={t("addPlace")}>
             <Link to="/suggest" aria-label={t("addPlace")}>
-              <MapPinPlus /> <span className="hidden sm:inline">{t("addPlace")}</span>
+              <MapPinPlus /> <span className="hidden lg:inline">{t("addPlace")}</span>
             </Link>
           </Button>
-          <Button asChild variant="outline" size="icon" className="sm:size-sm sm:rounded-full" aria-label={user ? t("myPlaces") : t("forOwners")} title={user ? t("myPlaces") : t("forOwners")}>
+          <Button asChild variant="outline" size="icon" className="sm:rounded-full lg:size-sm" aria-label={user ? t("myPlaces") : t("forOwners")} title={user ? t("myPlaces") : t("forOwners")}>
             <Link to="/dashboard" aria-label={user ? t("myPlaces") : t("forOwners")}>
-              <Store /> <span className="hidden sm:inline">{user ? t("myPlaces") : t("forOwners")}</span>
+              <Store /> <span className="hidden lg:inline">{user ? t("myPlaces") : t("forOwners")}</span>
             </Link>
           </Button>
           {user && (
-            <Button variant="ghost" size="icon" className="sm:size-sm sm:w-auto sm:px-3" onClick={() => supabase.auth.signOut()} aria-label={t("signOut")} title={t("signOut")}>
+            <Button variant="ghost" size="icon" className="sm:w-auto sm:px-3" onClick={() => supabase.auth.signOut()} aria-label={t("signOut")} title={t("signOut")}>
               <LogOut className="sm:hidden" />
-              <span className="hidden sm:inline">{t("signOut")}</span>
+              <LogOut className="hidden sm:inline" />
+              <span className="hidden lg:inline">{t("signOut")}</span>
             </Button>
           )}
         </div>
