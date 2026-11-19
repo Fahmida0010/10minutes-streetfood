@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { LogOut, MapPinPlus, Menu, Store, X } from "lucide-react";
+import { House, LogOut, MapPinPlus, Menu, Store, X } from "lucide-react";
 import { useApp } from "@/lib/app-context";
 import { useAuth } from "@/lib/use-auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -48,6 +48,18 @@ export function SiteHeader() {
             </div>
 
             <div className="hidden items-center gap-2 sm:flex">
+              <Button
+                asChild
+                variant="outline"
+                size="icon"
+                className="shrink-0 rounded-full lg:w-auto lg:px-4"
+                aria-label={t("home")}
+                title={t("home")}
+              >
+                <Link to="/" aria-label={t("home")} activeOptions={{ exact: true }} className="flex items-center gap-1.5">
+                  <House /> <span className="hidden lg:inline">{t("home")}</span>
+                </Link>
+              </Button>
               <Button
                 asChild
                 variant="accent"
@@ -107,13 +119,19 @@ export function SiteHeader() {
             aria-label="Mobile navigation"
             className="grid grid-cols-2 gap-2 border-t py-3 sm:hidden"
           >
+            <Button asChild variant="outline" className="min-w-0 justify-center">
+              <Link to="/" onClick={closeMenu} activeOptions={{ exact: true }} className="flex min-w-0 items-center justify-center gap-1.5">
+                <House className="shrink-0" />
+                <span className="truncate">{t("home")}</span>
+              </Link>
+            </Button>
             <Button asChild variant="accent" className="min-w-0 justify-center">
               <Link to="/suggest" onClick={closeMenu}>
                 <MapPinPlus className="shrink-0" />
                 <span className="truncate">{t("addPlace")}</span>
               </Link>
             </Button>
-            <Button asChild variant="outline" className="min-w-0 justify-center">
+            <Button asChild variant="outline" className="col-span-2 min-w-0 justify-center">
               <Link to="/dashboard" onClick={closeMenu}>
                 <Store className="shrink-0" />
                 <span className="truncate">{user ? t("myPlaces") : t("forOwners")}</span>
