@@ -36,7 +36,7 @@ export const restaurantQuery = (id: string) =>
         supabase.from("deals").select("*").eq("restaurant_id", id).order("ends_at"),
         supabase
           .from("reviews")
-          .select("*")
+          .select("id, restaurant_id, user_name, rating, comment, created_at")
           .eq("restaurant_id", id)
           .order("created_at", { ascending: false }),
       ]);

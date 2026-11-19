@@ -29,6 +29,13 @@
       "when": 1794597201977,
       "tag": "0003_restrict_visitor_and_image_access",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795100422916,
+      "tag": "0004_scope_review_reads",
+      "breakpoints": true
     }
   ]
 }
