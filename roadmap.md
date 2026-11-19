@@ -1,2 +1,2 @@
-- [ ] Make all public and account pages usable on mobile, laptop, and desktop widths.
-- [ ] Check the key pages for horizontal overflow and record the responsive verification.
+- [x] Make public and account page layouts adapt to phone, tablet, laptop, and desktop widths.
+- [x] Check home, add-place, and sign-in pages at phone, tablet, and desktop sizes; no horizontal overflow or page errors.
