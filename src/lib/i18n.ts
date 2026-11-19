@@ -2,12 +2,13 @@ export type Lang = "en" | "bn";
 
 const en = {
   brand: "10MinitesStreetfood",
-  visitors: "visitors so far",
+  visitors: "unique visitors",
+  visits: "total website visits",
   heroTitle: "Hungry? Street food within a 10 minute walk.",
-  heroSub: "Every street stall, hotel kitchen and restaurant in Bangladesh — starting with Sylhet — with real prices, opening hours and a walking route.",
+  heroSub: "Street stalls, hotel kitchens and restaurants across Bangladesh — with real prices, opening hours and walking routes.",
   useLocation: "Use my location",
   locating: "Finding you…",
-  usingDefault: "Showing distances from Zindabazar Point, Sylhet",
+  usingDefault: "Showing distances from the default map location",
   usingReal: "Showing distances from your location",
   within10: "Within 10 min",
   openNow: "Open now",
@@ -79,12 +80,13 @@ export type DictKey = keyof typeof en;
 
 const bn: Record<DictKey, string> = {
   brand: "১০মিনিটসস্ট্রিটফুড",
-  visitors: "জন ভিজিটর এসেছে",
+  visitors: "মোট ইউনিক ভিজিটর",
+  visits: "মোট ওয়েবসাইট ভিজিট",
   heroTitle: "ক্ষুধা লেগেছে? ১০ মিনিট হাঁটলেই স্ট্রিট ফুড।",
-  heroSub: "সারা বাংলাদেশের — বিশেষ করে সিলেটের — সব স্ট্রিট ফুড, হোটেল আর রেস্টুরেন্ট: আসল দাম, খোলার সময় আর হাঁটার রাস্তাসহ।",
+  heroSub: "সারা বাংলাদেশের স্ট্রিট ফুড, হোটেল আর রেস্টুরেন্ট — আসল দাম, খোলার সময় ও হাঁটার রাস্তাসহ।",
   useLocation: "আমার লোকেশন",
   locating: "খুঁজছি…",
-  usingDefault: "জিন্দাবাজার পয়েন্ট, সিলেট থেকে দূরত্ব দেখানো হচ্ছে",
+  usingDefault: "ডিফল্ট ম্যাপ লোকেশন থেকে দূরত্ব দেখানো হচ্ছে",
   usingReal: "আপনার লোকেশন থেকে দূরত্ব দেখানো হচ্ছে",
   within10: "১০ মিনিটের মধ্যে",
   openNow: "এখন খোলা",

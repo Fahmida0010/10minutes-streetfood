@@ -1,2 +1,4 @@
 - [x] Make public and account page layouts adapt to phone, tablet, laptop, and desktop widths.
 - [x] Check home, add-place, and sign-in pages at phone, tablet, and desktop sizes; no horizontal overflow or page errors.
+- [x] Replace the hero with a new street-food scene and remove Sylhet wording from the hero.
+- [x] Show actual total website visits beside unique visitors and verify both counters.

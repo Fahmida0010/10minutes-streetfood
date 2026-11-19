@@ -1,15 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
-import { LocateFixed, Search, Shuffle, Users } from "lucide-react";
-import hero from "@/assets/hero.jpg";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Eye, LocateFixed, Search, Shuffle, Users } from "lucide-react";
+import hero from "@/assets/hero-streetfood.jpg";
 import { useApp } from "@/lib/app-context";
 import { restaurantsQuery, displayName } from "@/lib/data";
 import { dhakaMinutesNow, distanceMeters, isOpenAt, walkMinutes, NEARBY_MINUTES, WALK_M_PER_MIN, STREET_FACTOR } from "@/lib/geo";
 import { FoodMap } from "@/components/FoodMap";
 import { PlaceCard } from "@/components/PlaceCard";
 import { Button } from "@/components/ui/button";
-import { bnDigits, recordVisit } from "@/lib/visitor";
+import { bnDigits, recordVisit, type VisitStats } from "@/lib/visitor";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,12 +37,14 @@ function Home() {
   const [onlyFavs, setOnlyFavs] = useState(false);
   const [q, setQ] = useState("");
   const [active, setActive] = useState<string | null>(null);
-  const [visitorCount, setVisitorCount] = useState<number | null>(null);
+  const [visitStats, setVisitStats] = useState<VisitStats | null>(null);
+  const visitRequest = useRef<Promise<VisitStats | null> | null>(null);
 
   useEffect(() => {
     let mounted = true;
-    void recordVisit().then((count) => {
-      if (mounted) setVisitorCount(count);
+    visitRequest.current ??= recordVisit();
+    void visitRequest.current.then((stats) => {
+      if (mounted) setVisitStats(stats);
     });
     return () => {
       mounted = false;
@@ -96,7 +98,7 @@ function Home() {
   return (
     <main>
       <section className="relative overflow-hidden">
-        <img src={hero} alt="Street food stall in Sylhet at night" width={1600} height={912} className="absolute inset-0 h-full w-full object-cover" />
+        <img src={hero} alt="A lively Bangladeshi street food market at night" width={1672} height={941} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-hero-fade" />
         <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-16 text-ink-foreground sm:pb-10 sm:pt-24 md:pt-36">
           <h1 className="max-w-2xl text-3xl font-extrabold leading-[1.05] sm:text-4xl md:text-6xl">{t("heroTitle")}</h1>
@@ -110,11 +112,17 @@ function Home() {
             </Button>
           </div>
           <p className="mt-3 text-sm opacity-80">{hasRealLocation ? t("usingReal") : t("usingDefault")}</p>
-          {visitorCount !== null && (
-            <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-ink-foreground/30 bg-ink/50 px-4 py-2 text-sm font-semibold">
-              <Users aria-hidden="true" className="h-4 w-4" />
-              <span>{lang === "bn" ? bnDigits(visitorCount) : visitorCount.toLocaleString()} {t("visitors")}</span>
-            </p>
+          {visitStats && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              <p className="inline-flex items-center gap-2 rounded-full border border-ink-foreground/30 bg-ink/50 px-4 py-2 text-sm font-semibold">
+                <Users aria-hidden="true" className="h-4 w-4" />
+                <span>{lang === "bn" ? bnDigits(visitStats.visitors) : visitStats.visitors.toLocaleString()} {t("visitors")}</span>
+              </p>
+              <p className="inline-flex items-center gap-2 rounded-full border border-ink-foreground/30 bg-ink/50 px-4 py-2 text-sm font-semibold">
+                <Eye aria-hidden="true" className="h-4 w-4" />
+                <span>{lang === "bn" ? bnDigits(visitStats.visits) : visitStats.visits.toLocaleString()} {t("visits")}</span>
+              </p>
+            </div>
           )}
         </div>
       </section>

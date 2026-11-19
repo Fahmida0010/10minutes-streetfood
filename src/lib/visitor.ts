@@ -2,17 +2,26 @@ import { supabase } from "@/integrations/supabase/client";
 
 const KEY = "10m-visitor-id";
 
-/** Records this device once (unique visitor id in localStorage) and returns the total unique visitor count. */
-export async function recordVisit(): Promise<number | null> {
+export type VisitStats = {
+  visitors: number;
+  visits: number;
+};
+
+/** Records one visit from this device and returns unique-visitor and total-visit counts. */
+export async function recordVisit(): Promise<VisitStats | null> {
   try {
     let id = localStorage.getItem(KEY);
     if (!id) {
       id = crypto.randomUUID();
       localStorage.setItem(KEY, id);
     }
-    const { data, error } = await supabase.rpc("record_visit", { p_visitor_id: id });
-    if (error || data == null) return null;
-    return Number(data);
+    const { data, error } = await supabase.rpc("record_visit_stats", { p_visitor_id: id });
+    const stats = data?.[0];
+    if (error || !stats) return null;
+    return {
+      visitors: Number(stats.unique_visitors),
+      visits: Number(stats.total_visits),
+    };
   } catch {
     return null;
   }

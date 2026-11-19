@@ -192,14 +192,17 @@ export type Database = {
         Row: {
           first_seen: string
           id: string
+          visit_count: number
         }
         Insert: {
           first_seen?: string
           id: string
+          visit_count?: number
         }
         Update: {
           first_seen?: string
           id?: string
+          visit_count?: number
         }
         Relationships: []
       }
@@ -209,6 +212,13 @@ export type Database = {
     }
     Functions: {
       record_visit: { Args: { p_visitor_id: string }; Returns: number }
+      record_visit_stats: {
+        Args: { p_visitor_id: string }
+        Returns: {
+          total_visits: number
+          unique_visitors: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

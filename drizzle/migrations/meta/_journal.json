@@ -43,6 +43,13 @@
       "when": 1795100865568,
       "tag": "0005_seed_paris_street_food",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1795105172125,
+      "tag": "0006_track_total_website_visits",
+      "breakpoints": true
     }
   ]
 }
