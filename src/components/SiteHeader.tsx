@@ -5,6 +5,7 @@ import { useApp } from "@/lib/app-context";
 import { useAuth } from "@/lib/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { InstallButton } from "@/components/InstallButton";
 import logoFoodCart from "@/assets/logo-foodcart.png";
 
 export function SiteHeader() {
@@ -84,6 +85,7 @@ export function SiteHeader() {
                   <Store /> <span className="hidden lg:inline">{user ? t("myPlaces") : t("forOwners")}</span>
                 </Link>
               </Button>
+              <InstallButton />
               {user && (
                 <Button
                   variant="ghost"
@@ -137,6 +139,7 @@ export function SiteHeader() {
                 <span className="truncate">{user ? t("myPlaces") : t("forOwners")}</span>
               </Link>
             </Button>
+            <InstallButton mode="row" className="col-span-2" />
             {user && (
               <Button
                 variant="ghost"

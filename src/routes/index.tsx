@@ -182,7 +182,7 @@ function Home() {
       </section>
 
       <section className="mx-auto grid max-w-7xl gap-4 px-3 py-4 sm:gap-6 sm:px-4 sm:py-6 lg:grid-cols-[1fr_1.1fr]">
-        <div className="lg:sticky lg:top-44 lg:h-[calc(100vh-12rem)]">
+        <div className="min-w-0 lg:sticky lg:top-44 lg:h-[calc(100vh-12rem)]">
           <FoodMap
             className="h-72 w-full overflow-hidden rounded-2xl border shadow-card sm:h-80 sm:rounded-3xl lg:h-full"
             center={location}
@@ -193,7 +193,7 @@ function Home() {
             onPinClick={(id) => navigate({ to: "/place/$id", params: { id } })}
           />
         </div>
-        <div className="space-y-3">
+        <div className="min-w-0 space-y-3">
           <p className="text-sm text-muted-foreground">
             {rows.length} {t("places")}
           </p>
