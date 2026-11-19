@@ -36,6 +36,13 @@
       "when": 1795100422916,
       "tag": "0004_scope_review_reads",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1795100865568,
+      "tag": "0005_seed_paris_street_food",
+      "breakpoints": true
     }
   ]
 }
