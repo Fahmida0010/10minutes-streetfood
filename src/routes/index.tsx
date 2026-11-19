@@ -98,7 +98,7 @@ function Home() {
   return (
     <main>
       <section className="relative overflow-hidden">
-        <img src={hero} alt="A busy Bangladeshi roadside street food market at dusk" width={1672} height={941} className="absolute inset-0 h-full w-full object-cover" />
+        <img src={hero} alt="Boys running a roadside street food stall while a group of girls eat fuchka together at dusk" width={1672} height={941} className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-hero-fade" />
         <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-16 text-ink-foreground sm:pb-10 sm:pt-24 md:pt-36">
           <h1 className="max-w-2xl text-3xl font-extrabold leading-[1.05] sm:text-4xl md:text-6xl">{t("heroTitle")}</h1>
