@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Footprints, Heart, Star } from "lucide-react";
 import { useApp } from "@/lib/app-context";
-import { categoryImage, formatDistance } from "@/lib/geo";
+import { categoryImage, formatDistance, isTooFarToWalk } from "@/lib/geo";
 import { displayName, type Restaurant } from "@/lib/data";
 
 type Props = {
@@ -19,6 +19,7 @@ export function PlaceCard({ r, meters, minutes, open, rating, deal, active, onHo
   const { lang, t, favs, toggleFav } = useApp();
   const fav = favs.includes(r.id);
   const nearby = minutes <= 10;
+  const tooFar = isTooFarToWalk(meters);
   return (
     <div
       onMouseEnter={onHover}
@@ -53,7 +54,7 @@ export function PlaceCard({ r, meters, minutes, open, rating, deal, active, onHo
           <span
             className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-semibold ${nearby ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}
           >
-            <Footprints className="h-3.5 w-3.5" /> {minutes} {t("minWalk")}
+            <Footprints className="h-3.5 w-3.5" /> {tooFar ? t("tooFar") : `${minutes} ${t("minWalk")}`}
           </span>
           <span className="text-muted-foreground">{formatDistance(meters)}</span>
           <span

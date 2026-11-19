@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import { ArrowLeft, Clock, Footprints, Heart, MapPin, Navigation, Phone, Star } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { ArrowLeft, Clock, Footprints, Heart, MapPin, Phone, Star } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { useApp } from "@/lib/app-context";
@@ -9,12 +9,16 @@ import { useAuth } from "@/lib/use-auth";
 import { restaurantQuery, displayName } from "@/lib/data";
 import { supabase } from "@/integrations/supabase/client";
 import {
+  arrivalLabel,
+  bnDigitsOf,
   categoryImage,
   dhakaMinutesNow,
   distanceMeters,
   formatDistance,
+  formatExactWalk,
   formatTime,
   isOpenAt,
+  isTooFarToWalk,
   walkMinutes,
   type LatLng,
 } from "@/lib/geo";
@@ -46,36 +50,61 @@ function PlacePage() {
   const qc = useQueryClient();
   const { data, isLoading } = useQuery(restaurantQuery(id));
   const [route, setRoute] = useState<LatLng[] | null>(null);
-  const [routeInfo, setRouteInfo] = useState<{ m: number; min: number } | null>(null);
+  const [routeInfo, setRouteInfo] = useState<{ m: number; sec: number; approx: boolean } | null>(null);
+  const [routeVisible, setRouteVisible] = useState(true);
   const [routing, setRouting] = useState(false);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState("");
   const [posting, setPosting] = useState(false);
 
-  if (isLoading) return <div className="mx-auto max-w-5xl p-8 text-muted-foreground">…</div>;
   const r = data?.restaurant;
-  if (!r) return <div className="mx-auto max-w-5xl p-8">Not found</div>;
+  const meters = r ? distanceMeters(location, [r.lat, r.lng]) : 0;
+  const tooFar = isTooFarToWalk(meters);
 
-  const meters = distanceMeters(location, [r.lat, r.lng]);
-  const open = r.available && isOpenAt(r.open_time, r.close_time, dhakaMinutesNow());
-  const avg = data.reviews.length ? data.reviews.reduce((s, x) => s + x.rating, 0) / data.reviews.length : 0;
-  const deals = data.deals.filter((d) => new Date(d.ends_at) > new Date());
-
-  async function showRoute() {
+  const loadRoute = useCallback(async () => {
+    if (!r || tooFar) return;
     setRouting(true);
     try {
-      const url = `https://routing.openstreetmap.de/routed-foot/route/v1/driving/${location[1]},${location[0]};${r!.lng},${r!.lat}?overview=full&geometries=geojson`;
+      const url = `https://routing.openstreetmap.de/routed-foot/route/v1/driving/${location[1]},${location[0]};${r.lng},${r.lat}?overview=full&geometries=geojson`;
       const res = await fetch(url);
       const j = await res.json();
       const rt = j.routes?.[0];
       if (!rt) throw new Error("no route");
       setRoute(rt.geometry.coordinates.map(([lng, lat]: [number, number]) => [lat, lng]));
-      setRouteInfo({ m: rt.distance, min: Math.max(1, Math.round(rt.distance / 80)) });
+      setRouteInfo({ m: rt.distance, sec: Math.max(1, Math.round(rt.duration)), approx: false });
     } catch {
-      toast.error("Route not available right now");
+      // Keep the route inside the site: straight line plus an estimated walking time.
+      setRoute([location, [r.lat, r.lng]]);
+      setRouteInfo({ m: meters, sec: walkMinutes(meters) * 60, approx: true });
     } finally {
       setRouting(false);
+      setRouteVisible(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [r?.id, location[0], location[1], tooFar]);
+
+  // The walking route is drawn on this site's own map as soon as the page opens.
+  useEffect(() => {
+    if (r && !tooFar) void loadRoute();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [r?.id, location[0], location[1], tooFar]);
+
+  if (isLoading) return <div className="mx-auto max-w-5xl p-8 text-muted-foreground">…</div>;
+  if (!r) return <div className="mx-auto max-w-5xl p-8">Not found</div>;
+
+  const open = r.available && isOpenAt(r.open_time, r.close_time, dhakaMinutesNow());
+  const avg = data.reviews.length ? data.reviews.reduce((s, x) => s + x.rating, 0) / data.reviews.length : 0;
+  const deals = data.deals.filter((d) => new Date(d.ends_at) > new Date());
+
+  const localize = (s: string) => (lang === "bn" ? bnDigitsOf(s) : s);
+
+  function toggleRoute() {
+    if (route && routeVisible) {
+      setRouteVisible(false);
+      return;
+    }
+    setRouteVisible(true);
+    void loadRoute();
   }
 
   async function postReview() {
@@ -131,7 +160,11 @@ function PlacePage() {
           {r.description && <p className="mt-3 text-lg text-muted-foreground">{r.description}</p>}
 
           <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <Info icon={<Footprints />} label={t("minWalk")} value={`${walkMinutes(meters)} min`} />
+            <Info
+              icon={<Footprints />}
+              label={t("minWalk")}
+              value={tooFar ? t("tooFar") : routeInfo ? formatExactWalk(routeInfo.sec) : `${walkMinutes(meters)} min`}
+            />
             <Info icon={<MapPin />} label="Distance" value={formatDistance(meters)} />
             <Info
               icon={<Clock />}
@@ -170,28 +203,43 @@ function PlacePage() {
             center={[r.lat, r.lng]}
             user={location}
             pins={[{ id: r.id, lat: r.lat, lng: r.lng, label: r.name, category: r.category }]}
-            route={route ?? undefined}
+            route={routeVisible ? route ?? undefined : undefined}
             zoom={16}
           />
-          {routeInfo && (
-            <p className="rounded-2xl bg-primary p-4 text-primary-foreground">
-              <strong className="font-display text-2xl">{routeInfo.min} min</strong> · {formatDistance(routeInfo.m)}{" "}
-              {t("walkingRoute").toLowerCase()}
-            </p>
+          {tooFar ? (
+            <div className="rounded-2xl border bg-card p-4">
+              <p className="font-display text-xl font-bold">
+                {formatDistance(meters)} · {t("tooFar")}
+              </p>
+              <p className="mt-1 text-sm text-muted-foreground">{t("farNote")}</p>
+            </div>
+          ) : (
+            routeInfo &&
+            routeVisible && (
+              <div className="rounded-2xl bg-primary p-4 text-primary-foreground">
+                <p className="font-display text-2xl font-bold leading-tight">
+                  {localize(formatExactWalk(routeInfo.sec))}{" "}
+                  <span className="text-base font-semibold opacity-90">{t("walkingRoute")}</span>
+                </p>
+                <p className="mt-1 text-sm opacity-95">
+                  {formatDistance(routeInfo.m)} · {t("arriveBy")} {localize(arrivalLabel(routeInfo.sec))}
+                </p>
+                {routeInfo.approx && <p className="mt-1 text-xs opacity-80">{t("approxRoute")}</p>}
+              </div>
+            )
           )}
           <div className="grid gap-2">
-            <Button size="lg" onClick={showRoute} disabled={routing} className="rounded-full">
-              <Footprints /> {routing ? t("routeLoading") : t("showRoute")}
-            </Button>
-            <Button asChild size="lg" variant="outline" className="rounded-full">
-              <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${r.lat},${r.lng}&travelmode=walking`}
-                target="_blank"
-                rel="noreferrer"
+            {!tooFar && (
+              <Button
+                size="lg"
+                variant={routeVisible && route ? "outline" : "default"}
+                onClick={toggleRoute}
+                disabled={routing}
+                className="rounded-full"
               >
-                <Navigation /> {t("openGoogle")}
-              </a>
-            </Button>
+                <Footprints /> {routing ? t("routeLoading") : routeVisible && route ? t("hideRoute") : t("showRoute")}
+              </Button>
+            )}
             {r.phone && (
               <Button asChild size="lg" variant="outline" className="rounded-full">
                 <a href={`tel:${r.phone}`}>

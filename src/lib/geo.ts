@@ -32,6 +32,13 @@ export function isWithinTenMinutes(straightMeters: number): boolean {
   return walkMinutes(straightMeters) <= NEARBY_MINUTES;
 }
 
+/** Beyond this many minutes on foot a walking route stops being useful. */
+export const WALK_LIMIT_MIN = 90;
+
+export function isTooFarToWalk(straightMeters: number): boolean {
+  return walkMinutes(straightMeters) > WALK_LIMIT_MIN;
+}
+
 export function formatDistance(m: number): string {
   return m < 1000 ? `${Math.round(m)} m` : `${(m / 1000).toFixed(1)} km`;
 }
@@ -68,6 +75,42 @@ export function formatTime(t: string): string {
   const suffix = h >= 12 ? "PM" : "AM";
   const hh = h % 12 === 0 ? 12 : h % 12;
   return `${hh}:${String(m).padStart(2, "0")} ${suffix}`;
+}
+
+/** "12 min 30 sec" from a duration in seconds. */
+export function formatExactWalk(sec: number): string {
+  const total = Math.max(0, Math.round(sec));
+  const m = Math.floor(total / 60);
+  const s = total % 60;
+  if (m === 0) return `${s} sec`;
+  return s === 0 ? `${m} min` : `${m} min ${s} sec`;
+}
+
+/** Wall clock in Sylhet (Asia/Dhaka), e.g. "9:42 PM". */
+export function dhakaClock(date = new Date()): string {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Dhaka",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(date);
+  const h = Number(parts.find((p) => p.type === "hour")?.value ?? 0) % 24;
+  const m = Number(parts.find((p) => p.type === "minute")?.value ?? 0);
+  const suffix = h >= 12 ? "PM" : "AM";
+  const hh = h % 12 === 0 ? 12 : h % 12;
+  return `${hh}:${String(m).padStart(2, "0")} ${suffix}`;
+}
+
+/** Clock time you arrive if you start walking now. */
+export function arrivalLabel(sec: number, from = new Date()): string {
+  return dhakaClock(new Date(from.getTime() + Math.max(0, Math.round(sec)) * 1000));
+}
+
+const BN_DIGITS = "০১২৩৪৫৬৭৮৯";
+
+/** Swap Latin digits for Bangla ones inside any label. */
+export function bnDigitsOf(value: string | number): string {
+  return String(value).replace(/[0-9]/g, (d) => BN_DIGITS[Number(d)] ?? d);
 }
 
 export function categoryImage(category: string): string {
